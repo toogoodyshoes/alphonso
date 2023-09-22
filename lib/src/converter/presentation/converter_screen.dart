@@ -1,3 +1,4 @@
+import 'package:alphonso/src/converter/presentation/value_input_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:alphonso/common/app_color.dart';
@@ -45,7 +46,15 @@ class ConverterScreen extends StatelessWidget {
                   );
                 },
                 onTapValueInput: () {
-                  print('HOla');
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ValueInputScreen(
+                        unit: 'kilometer',
+                        value: '1',
+                        backgroundColor: unitCategory['color'],
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
