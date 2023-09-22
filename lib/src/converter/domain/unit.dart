@@ -1,4 +1,4 @@
-import 'package:alphonso/src/convertor/domain/unit_category.dart';
+import 'package:alphonso/src/converter/domain/unit_category.dart';
 
 class Unit {
   const Unit({

@@ -1,5 +1,5 @@
-import 'package:alphonso/src/convertor/domain/unit.dart';
-import 'package:alphonso/src/convertor/domain/unit_category.dart';
+import 'package:alphonso/src/converter/domain/unit.dart';
+import 'package:alphonso/src/converter/domain/unit_category.dart';
 
 const meter = Unit(
   category: Length(),
