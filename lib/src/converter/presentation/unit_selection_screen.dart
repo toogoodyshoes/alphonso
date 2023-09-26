@@ -6,22 +6,20 @@ class UnitSelectionScreen extends StatefulWidget {
     required this.units,
     required this.selectedUnit,
     required this.backgroundColor,
+    required this.onUnitChange,
   });
 
   final List<String> units;
   final String selectedUnit;
   final Color backgroundColor;
+  final void Function(String) onUnitChange;
 
   @override
   State<UnitSelectionScreen> createState() => _UnitSelectionScreenState();
 }
 
 class _UnitSelectionScreenState extends State<UnitSelectionScreen> {
-  final PageController _controller = PageController(
-    initialPage: 0,
-    viewportFraction: 0.1,
-    keepPage: false,
-  );
+  late final PageController _controller;
 
   late int currentIndex;
 
@@ -33,6 +31,12 @@ class _UnitSelectionScreenState extends State<UnitSelectionScreen> {
     if(currentIndex.isNegative) {
       currentIndex = 0;
     }
+
+    _controller = PageController(
+      initialPage: currentIndex,
+      viewportFraction: 0.1,
+      keepPage: false,
+    );
   }
 
   @override
@@ -85,6 +89,8 @@ class _UnitSelectionScreenState extends State<UnitSelectionScreen> {
               onPageChanged: (int value) {
                 setState(() {
                   currentIndex = value;
+                  final unit = widget.units[value];
+                  widget.onUnitChange(unit);
                 });
               },
             ),

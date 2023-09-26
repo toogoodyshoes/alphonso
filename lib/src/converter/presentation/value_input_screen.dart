@@ -1,5 +1,5 @@
-import 'package:alphonso/common/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:alphonso/common/app_color.dart';
 
 class ValueInputScreen extends StatefulWidget {
   const ValueInputScreen({
@@ -7,11 +7,13 @@ class ValueInputScreen extends StatefulWidget {
     required this.unit,
     required this.value,
     required this.backgroundColor,
+    required this.onValueChange,
   });
 
   final String unit;
   final String value;
   final Color backgroundColor;
+  final void Function(String value) onValueChange;
 
   @override
   State<ValueInputScreen> createState() => _ValueInputScreenState();
@@ -99,7 +101,7 @@ class _ValueInputScreenState extends State<ValueInputScreen> {
                             focusedBorder: InputBorder.none,
                           ),
                           onSubmitted: (value) {
-                            // TODO : update value
+                            widget.onValueChange(value);
                             Navigator.of(context).pop();
                           },
                         ),
