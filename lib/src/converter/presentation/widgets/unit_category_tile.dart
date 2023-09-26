@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
 
+import 'package:alphonso/src/converter/domain/unit_category.dart';
+
 class UnitCategoryTile extends StatelessWidget {
   const UnitCategoryTile({
     super.key,
     this.onTap,
-    required this.unitCategory,
+    required this.category,
   });
 
   final void Function()? onTap;
-  final Map<String, dynamic> unitCategory;
+  final UnitCategory category;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        color: unitCategory['color'],
+        color: category.theme!.lightShade,
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             /// Icon
             Icon(
-              unitCategory['icon'],
+              category.theme!.icon,
               size: 54.0,
               color: Colors.white,
             ),
@@ -31,7 +33,7 @@ class UnitCategoryTile extends StatelessWidget {
 
             /// Label
             Text(
-              unitCategory['label'],
+              category.label!,
               style: const TextStyle(
                 fontFamily: 'Inter',
                 fontWeight: FontWeight.w400,

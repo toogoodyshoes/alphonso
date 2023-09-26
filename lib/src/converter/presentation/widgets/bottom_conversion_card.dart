@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:alphonso/src/converter/presentation/converter_controller.dart';
 
 class BottomConversionCard extends StatelessWidget {
   const BottomConversionCard({
     super.key,
     required this.color,
-    required this.unit,
-    required this.value,
     this.onTapUnitSelection,
     this.onTapValueInput,
   });
 
   final Color color;
-  final String unit;
-  final String value;
   final void Function()? onTapUnitSelection;
   final void Function()? onTapValueInput;
 
@@ -33,14 +32,19 @@ class BottomConversionCard extends StatelessWidget {
                 onTap: onTapValueInput,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    value,
-                    style: const TextStyle(
-                      fontFamily: 'EB Garamond',
-                      fontWeight: FontWeight.w300,
-                      fontSize: 64.0,
-                      color: Colors.white,
-                    ),
+                  child: Selector<ConverterController, double>(
+                    selector: (_, provider) => provider.bottomValue,
+                    builder: (context, value, _) {
+                      return Text(
+                        value.toString(),
+                        style: const TextStyle(
+                          fontFamily: 'EB Garamond',
+                          fontWeight: FontWeight.w300,
+                          fontSize: 64.0,
+                          color: Colors.white,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -54,14 +58,19 @@ class BottomConversionCard extends StatelessWidget {
               onTap: onTapUnitSelection,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  unit,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w300,
-                    fontSize: 44.0,
-                    color: Colors.white,
-                  ),
+                child: Selector<ConverterController, String>(
+                  selector: (_, provider) => provider.bottomUnit,
+                  builder: (context, unit, _) {
+                    return Text(
+                      unit,
+                      style: const TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w300,
+                        fontSize: 44.0,
+                        color: Colors.white,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

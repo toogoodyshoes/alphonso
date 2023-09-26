@@ -1,94 +1,163 @@
-import 'package:alphonso/src/converter/presentation/value_input_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:alphonso/common/app_color.dart';
+import 'package:alphonso/src/converter/domain/unit_category.dart';
+import 'package:alphonso/src/converter/presentation/value_input_screen.dart';
+import 'package:alphonso/src/converter/presentation/converter_controller.dart';
 import 'package:alphonso/src/converter/presentation/unit_selection_screen.dart';
-import 'package:alphonso/src/converter/presentation/widgets/bottom_conversion_card.dart';
 import 'package:alphonso/src/converter/presentation/widgets/top_conversion_card.dart';
+import 'package:alphonso/src/converter/presentation/widgets/bottom_conversion_card.dart';
 
 class ConverterScreen extends StatelessWidget {
   const ConverterScreen({
     super.key,
-    required this.unitCategory,
+    required this.category,
   });
 
-  final Map<String, dynamic> unitCategory;
+  final UnitCategory category;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColor.spaceCadet,
-      child: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            /// Top Conversion card
-            Expanded(
-              child: TopConversionCard(
-                unit: 'kilometer',
-                value: '1',
-                color: unitCategory['color'],
-                onTapUnitSelection: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => UnitSelectionScreen(
-                        units: const [
-                          'centimeter',
-                          'kilometer',
-                          'meter',
-                          'decameter',
-                          'micrometer'
-                        ],
-                        selectedUnit: 'kilometer',
-                        backgroundColor: unitCategory['color'],
-                      ),
-                    ),
-                  );
-                },
-                onTapValueInput: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ValueInputScreen(
-                        unit: 'kilometer',
-                        value: '1',
-                        backgroundColor: unitCategory['color'],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+    return ChangeNotifierProvider<ConverterController>(
+      create: (context) => ConverterController(category: category),
+      child: Builder(
+        builder: (context) {
+          return Material(
+            color: AppColor.spaceCadet,
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  /// Top Conversion card
+                  Expanded(
+                    child: TopConversionCard(
+                      color: category.theme!.lightShade,
+                      onTapUnitSelection: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ChangeNotifierProvider<
+                                ConverterController>.value(
+                              value: Provider.of<ConverterController>(context,
+                                  listen: false),
+                              child: UnitSelectionScreen(
+                                units: category.generateSimplifiedList(),
+                                selectedUnit: context
+                                    .watch<ConverterController>()
+                                    .topUnit,
+                                backgroundColor: category.theme!.lightShade,
+                                onUnitChange: (String newUnit) {
+                                  context
+                                      .read<ConverterController>()
+                                      .changeTopUnit(newUnit);
 
-            /// Bottom Conversion card
-            Expanded(
-              child: BottomConversionCard(
-                unit: 'meter',
-                value: '1000',
-                color: unitCategory['secondaryColor'],
-                onTapUnitSelection: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => UnitSelectionScreen(
-                        units: const [
-                          'centimeter',
-                          'kilometer',
-                          'meter',
-                          'decameter',
-                          'micrometer'
-                        ],
-                        selectedUnit: 'meter',
-                        backgroundColor: unitCategory['secondaryColor'],
-                      ),
+                                  context.read<ConverterController>().computeBottomValue();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onTapValueInput: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ChangeNotifierProvider<
+                                ConverterController>.value(
+                              value: Provider.of<ConverterController>(context,
+                                  listen: false),
+                              child: ValueInputScreen(
+                                unit: context
+                                    .watch<ConverterController>()
+                                    .topUnit,
+                                value: context
+                                    .watch<ConverterController>()
+                                    .topValue
+                                    .toString(),
+                                backgroundColor: category.theme!.lightShade,
+                                onValueChange: (String newValue) {
+                                  final parsedValue = double.parse(newValue);
+                                  context
+                                      .read<ConverterController>()
+                                      .changeTopValue(parsedValue);
+
+                                  context.read<ConverterController>().computeBottomValue();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-                onTapValueInput: () {
-                  print('HOla');
-                },
+                  ),
+
+                  /// Bottom Conversion card
+                  Expanded(
+                    child: BottomConversionCard(
+                      color: category.theme!.darkShade,
+                      onTapUnitSelection: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ChangeNotifierProvider<
+                                ConverterController>.value(
+                              value: Provider.of<ConverterController>(context,
+                                  listen: false),
+                              child: UnitSelectionScreen(
+                                units: category.generateSimplifiedList(),
+                                selectedUnit: context
+                                    .read<ConverterController>()
+                                    .bottomUnit
+                                    .toString(),
+                                backgroundColor: category.theme!.darkShade,
+                                onUnitChange: (String value) {
+                                  context
+                                      .read<ConverterController>()
+                                      .changeBottomUnit(value);
+
+                                  context
+                                      .read<ConverterController>().computeTopValue();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      onTapValueInput: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => ChangeNotifierProvider<
+                                ConverterController>.value(
+                              value: Provider.of<ConverterController>(context,
+                                  listen: false),
+                              child: ValueInputScreen(
+                                unit: context
+                                    .watch<ConverterController>()
+                                    .bottomUnit,
+                                value: context
+                                    .watch<ConverterController>()
+                                    .bottomValue
+                                    .toString(),
+                                backgroundColor: category.theme!.darkShade,
+                                onValueChange: (String value) {
+                                  final parsedValue = double.parse(value);
+                                  context
+                                      .read<ConverterController>()
+                                      .changeBottomValue(parsedValue);
+
+                                  context
+                                      .read<ConverterController>().computeTopValue();
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
