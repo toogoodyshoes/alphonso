@@ -21,7 +21,7 @@ jobs:
       # Checkout release branch
       - name: Checking out codebase
         uses: actions/checkout@v4
-      - run: echo "branch=${GITHUB_SHA}"
+      - run: git branch
 #      - run: git checkout develop
 #      - run: flutter pub get
 #      - run: flutter test
