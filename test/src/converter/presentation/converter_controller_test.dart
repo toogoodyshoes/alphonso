@@ -107,19 +107,6 @@ void main() {
           expect(controller.bottomValue == 51200000.0, true);
         },
       );
-
-      test(
-        'computeBottomValue duplicate',
-            () {
-          controller.changeTopUnit('millimeter');
-          controller.changeTopValue(512);
-          controller.changeBottomUnit('nanometer');
-
-          controller.computeBottomValue();
-
-          expect(controller.bottomValue == 51200000.0, true);
-        },
-      );
     },
   );
 }
