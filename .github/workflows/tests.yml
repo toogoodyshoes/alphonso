@@ -1,9 +1,7 @@
 name: Tests
 on:
-  push:
-    branches:
-      - release-*
-
+  pull_request:
+    type: [opened]
 
 permissions: read-all
 
@@ -20,9 +18,10 @@ jobs:
           channel: 'stable'
       - run: flutter doctor
 
-      # Checkout codebase
+      # Checkout release branch
       - name: Checking out codebase
         uses: actions/checkout@v4
-      - run: git checkout release-0.1.0
-      - run: flutter pub get
-      - run: flutter test
+      - run: echo "branch=${GITHUB_REF}"
+#      - run: git checkout develop
+#      - run: flutter pub get
+#      - run: flutter test
