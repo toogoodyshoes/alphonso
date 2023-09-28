@@ -24,4 +24,5 @@ jobs:
       - name: Checking out codebase
         uses: actions/checkout@v4
       - run: git checkout release-0.1.0
-      - run: git branch
+      - run: flutter pub get
+      - run: flutter test
