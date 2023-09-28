@@ -21,7 +21,7 @@ jobs:
       # Checkout release branch
       - name: Checking out codebase
         uses: actions/checkout@v4
-      - run: git branch
+      - run: echo "sha=${{ github.event.pull_request.head.sha }}"
 #      - run: git checkout develop
 #      - run: flutter pub get
 #      - run: flutter test
