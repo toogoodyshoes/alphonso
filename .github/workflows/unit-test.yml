@@ -22,5 +22,5 @@ jobs:
 
       # Checkout codebase
       - name: Checking out codebase
-        uses: actions/checkout
+        uses: actions/checkout@release-0.1.0
       - run: git branch
