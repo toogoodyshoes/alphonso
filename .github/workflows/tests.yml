@@ -1,0 +1,25 @@
+name: Tests
+on:
+  pull_request:
+    type: [opened, reopened]
+
+permissions: read-all
+
+jobs:
+  unit-test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      # Set up Flutter
+      - name: Set up Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.2'
+          channel: 'stable'
+      - run: flutter doctor
+
+      # Checkout release branch
+      - name: Checkout out codebase
+        uses: actions/checkout@v4
+      - run: flutter pub get
+      - run: flutter test
