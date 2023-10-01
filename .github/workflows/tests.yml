@@ -1,5 +1,7 @@
 name: Tests
 on:
+  push:
+    develop
   pull_request:
     type: [opened, reopened]
 
