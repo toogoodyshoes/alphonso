@@ -1,3 +1,4 @@
+import 'package:alphonso/src/converter/data/repository/local_storage_repository.dart';
 import 'package:test/test.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,10 @@ void main() {
         ),
         defaultToValue: 1000,
       );
-      final controller = ConverterController(category: category);
+      final controller = ConverterController(
+        category: category,
+        lsRepository: LocalStorageRepository(),
+      );
 
       test(
         'changeTopValue',
@@ -54,7 +58,7 @@ void main() {
 
       test(
         'changeBottomValue',
-            () {
+        () {
           const value = 2000.0;
           controller.changeBottomValue(value);
 
@@ -64,7 +68,7 @@ void main() {
 
       test(
         'changeTopUnit',
-            () {
+        () {
           const unit = 'meter';
           controller.changeTopUnit(unit);
 
@@ -74,7 +78,7 @@ void main() {
 
       test(
         'changeBottomUnit',
-            () {
+        () {
           const unit = 'millimeter';
           controller.changeBottomUnit(unit);
 
@@ -84,7 +88,7 @@ void main() {
 
       test(
         'computeTopValue',
-            () {
+        () {
           controller.changeBottomUnit('kilometer');
           controller.changeBottomValue(256);
           controller.changeTopUnit('meter');
@@ -97,7 +101,7 @@ void main() {
 
       test(
         'computeBottomValue',
-            () {
+        () {
           controller.changeTopUnit('millimeter');
           controller.changeTopValue(512);
           controller.changeBottomUnit('nanometer');
