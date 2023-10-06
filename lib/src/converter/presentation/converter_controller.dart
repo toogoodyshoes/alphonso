@@ -20,7 +20,7 @@ class ConverterController with ChangeNotifier {
   }
 
   final UnitCategory category;
-  final LocalStorageRepository lsRepository;
+  final StorageRepository lsRepository;
   double _topValue = 1;
   double get topValue => _topValue;
 
