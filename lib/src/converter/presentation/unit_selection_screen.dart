@@ -28,7 +28,7 @@ class _UnitSelectionScreenState extends State<UnitSelectionScreen> {
     super.initState();
 
     currentIndex = widget.units.indexOf(widget.selectedUnit);
-    if(currentIndex.isNegative) {
+    if (currentIndex.isNegative) {
       currentIndex = 0;
     }
 

@@ -1,3 +1,4 @@
+import 'package:alphonso/src/converter/data/repository/local_storage_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,10 @@ class ConverterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ConverterController>(
-      create: (context) => ConverterController(category: category),
+      create: (context) => ConverterController(
+        category: category,
+        lsRepository: context.read<LocalStorageRepository>(),
+      ),
       child: Builder(
         builder: (context) {
           return Material(
@@ -51,7 +55,9 @@ class ConverterScreen extends StatelessWidget {
                                       .read<ConverterController>()
                                       .changeTopUnit(newUnit);
 
-                                  context.read<ConverterController>().computeBottomValue();
+                                  context
+                                      .read<ConverterController>()
+                                      .computeBottomValue();
                                 },
                               ),
                             ),
@@ -80,7 +86,9 @@ class ConverterScreen extends StatelessWidget {
                                       .read<ConverterController>()
                                       .changeTopValue(parsedValue);
 
-                                  context.read<ConverterController>().computeBottomValue();
+                                  context
+                                      .read<ConverterController>()
+                                      .computeBottomValue();
                                 },
                               ),
                             ),
@@ -114,7 +122,8 @@ class ConverterScreen extends StatelessWidget {
                                       .changeBottomUnit(value);
 
                                   context
-                                      .read<ConverterController>().computeTopValue();
+                                      .read<ConverterController>()
+                                      .computeTopValue();
                                 },
                               ),
                             ),
@@ -144,7 +153,8 @@ class ConverterScreen extends StatelessWidget {
                                       .changeBottomValue(parsedValue);
 
                                   context
-                                      .read<ConverterController>().computeTopValue();
+                                      .read<ConverterController>()
+                                      .computeTopValue();
                                 },
                               ),
                             ),
