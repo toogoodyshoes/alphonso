@@ -41,9 +41,10 @@ void main() {
         ),
         defaultToValue: 1000,
       );
+
       final controller = ConverterController(
         category: category,
-        lsRepository: LocalStorageRepository(),
+        lsRepository: MockStorageRepository(),
       );
 
       test(
