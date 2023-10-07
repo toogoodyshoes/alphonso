@@ -133,4 +133,40 @@ const unitCategories = <UnitCategory>[
     ),
     defaultToValue: 1000,
   ),
+  Area(
+    label: 'Area',
+    theme: UnitTheme(
+      icon: Icons.crop_square,
+      lightShade: Color(0xFFEE5011),
+      darkShade: Color(0xFFDD4A0F),
+    ),
+    defaultFrom: Unit(
+      name: 'square yard',
+      conversionFactors: {
+        'square kilometer': 0.00000083613,
+        'square meter': 0.83613,
+        'square mile': 0.000000032283,
+        'square yard': 1,
+        'square foot': 9,
+        'square inch': 1296,
+        'hectare': 0.000083613,
+        'acre': 0.0002066,
+      },
+    ),
+    defaultFromValue: 1,
+    defaultTo: Unit(
+      name: 'square foot',
+      conversionFactors: {
+        'square kilometer': 0.000000092903,
+        'square meter': 0.092903,
+        'square mile': 0.00000003587,
+        'square yard': 0.111111,
+        'square foot': 1,
+        'square inch': 144,
+        'hectare': 0.0000092903,
+        'acre': 0.000022957,
+      },
+    ),
+    defaultToValue: 1000,
+  ),
 ];
