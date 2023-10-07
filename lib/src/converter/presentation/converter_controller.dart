@@ -52,6 +52,13 @@ class ConverterController with ChangeNotifier {
 
       _bottomUnit = category.defaultTo!.name;
       _bottomValue = category.defaultToValue!.toDouble();
+
+      _unitState = UnitState()
+        ..unitCategory = category.label
+        ..topUnit = _topUnit
+        ..topValue = _topValue
+        ..bottomUnit = _bottomUnit
+        ..bottomValue = _bottomValue;
     }
 
     notifyListeners();
