@@ -197,4 +197,36 @@ const unitCategories = <UnitCategory>[
     ),
     defaultToValue: 97.9,
   ),
+  Weight(
+    label: 'Weight',
+    theme: UnitTheme(
+      icon: Icons.fitness_center,
+      lightShade: Color(0xFFFF499E),
+      darkShade: Color(0xFFFF3091),
+    ),
+    defaultFrom: Unit(
+      name: 'Kilogram',
+      conversionFactors: {
+        'Gram': 1000,
+        'Kilogram': 1,
+        'Metric Ton': 0.001,
+        'Milligram': 1000000,
+        'Ounce': 35.27396,
+        'Pound': 2.204623,
+      },
+    ),
+    defaultFromValue: 45,
+    defaultTo: Unit(
+      name: 'Gram',
+      conversionFactors: {
+        'Gram': 1,
+        'Kilogram': 0.001,
+        'Metric Ton': 0.000001,
+        'Milligram': 1000,
+        'Ounce': 0.03527396,
+        'Pound': 0.002204623,
+      },
+    ),
+    defaultToValue: 45000,
+  ),
 ];
