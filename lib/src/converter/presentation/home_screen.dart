@@ -169,4 +169,32 @@ const unitCategories = <UnitCategory>[
     ),
     defaultToValue: 1000,
   ),
+  Temperature(
+    label: 'Temperature',
+    theme: UnitTheme(
+      icon: Icons.device_thermostat_outlined,
+      lightShade: Color(0xFFEDD83D),
+      darkShade: Color(0xFFEBD428),
+    ),
+    defaultFrom: Unit(
+      name: 'Celsius',
+      conversionFactors: {
+        'Celsius': 1,
+        'Fahrenheit': 33.8,
+        'Kelvin': 274.15,
+        'Rankine': 493.47,
+      },
+    ),
+    defaultFromValue: 36.6,
+    defaultTo: Unit(
+      name: 'Fahrenheit',
+      conversionFactors: {
+        'Celsius': -17.22,
+        'Fahrenheit': 1,
+        'Kelvin': 255.9278,
+        'Rankine': 460.67,
+      },
+    ),
+    defaultToValue: 97.9,
+  ),
 ];

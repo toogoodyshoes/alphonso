@@ -228,3 +228,61 @@ class Area extends UnitCategory {
     ),
   ];
 }
+
+class Temperature extends UnitCategory {
+  const Temperature({
+    String? label,
+    UnitTheme? theme,
+    Unit? defaultFrom,
+    num? defaultFromValue,
+    Unit? defaultTo,
+    num? defaultToValue,
+  }) : super(
+    label: label,
+    theme: theme,
+    defaultFrom: defaultFrom,
+    units: _units,
+    defaultFromValue: defaultFromValue,
+    defaultTo: defaultTo,
+    defaultToValue: defaultToValue,
+  );
+
+  static const List<Unit> _units = [
+    Unit(
+      name: 'Celsius',
+      conversionFactors: {
+        'Celsius': 1,
+        'Fahrenheit': 33.8,
+        'Kelvin': 274.15,
+        'Rankine': 493.47,
+      },
+    ),
+    Unit(
+      name: 'Fahrenheit',
+      conversionFactors: {
+        'Celsius': -17.22,
+        'Fahrenheit': 1,
+        'Kelvin': 255.9278,
+        'Rankine': 460.67,
+      },
+    ),
+    Unit(
+      name: 'Kelvin',
+      conversionFactors: {
+        'Celsius': -272.15,
+        'Fahrenheit': -457.87,
+        'Kelvin': 1,
+        'Rankine': 1.8,
+      },
+    ),
+    Unit(
+      name: 'Rankine',
+      conversionFactors: {
+        'Celsius': -272.5944,
+        'Fahrenheit': -458.67,
+        'Kelvin': 0.5555556,
+        'Rankine': 1,
+      },
+    ),
+  ];
+}
