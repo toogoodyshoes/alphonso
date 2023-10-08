@@ -65,8 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   /// Unit Grid
                   Expanded(
                     child: GridView.count(
+                      physics: const BouncingScrollPhysics(),
                       crossAxisCount: 3,
                       childAspectRatio: 0.8,
+                      crossAxisSpacing: 8.0,
+                      mainAxisSpacing: 8.0,
                       padding: const EdgeInsets.all(16.0),
                       children: List.generate(
                         unitCategories.length,

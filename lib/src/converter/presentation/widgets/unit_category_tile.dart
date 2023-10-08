@@ -17,28 +17,34 @@ class UnitCategoryTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        color: category.theme!.lightShade,
         padding: const EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          color: category.theme!.darkShade.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             /// Icon
             Icon(
               category.theme!.icon,
-              size: 54.0,
-              color: Colors.white,
+              size: 48.0,
+              color: Colors.white.withOpacity(0.6),
             ),
 
             const SizedBox(height: 8.0),
 
             /// Label
-            Text(
-              category.label!,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w400,
-                fontSize: 18.0,
-                color: Colors.white,
+            FittedBox(
+              fit: BoxFit.contain,
+              child: Text(
+                category.label!,
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18.0,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],
