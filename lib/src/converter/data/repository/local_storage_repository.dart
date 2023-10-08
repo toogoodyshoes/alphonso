@@ -36,8 +36,6 @@ class LocalStorageRepository extends StorageRepository {
         .filter()
         .unitCategoryEqualTo('Length')
         .findFirst();
-
-    print('readState = ${readState?.topUnit}');
   }
 
   Future<void> openDBConnection() async {
