@@ -238,14 +238,14 @@ class Temperature extends UnitCategory {
     Unit? defaultTo,
     num? defaultToValue,
   }) : super(
-    label: label,
-    theme: theme,
-    defaultFrom: defaultFrom,
-    units: _units,
-    defaultFromValue: defaultFromValue,
-    defaultTo: defaultTo,
-    defaultToValue: defaultToValue,
-  );
+          label: label,
+          theme: theme,
+          defaultFrom: defaultFrom,
+          units: _units,
+          defaultFromValue: defaultFromValue,
+          defaultTo: defaultTo,
+          defaultToValue: defaultToValue,
+        );
 
   static const List<Unit> _units = [
     Unit(
@@ -282,6 +282,94 @@ class Temperature extends UnitCategory {
         'Fahrenheit': -458.67,
         'Kelvin': 0.5555556,
         'Rankine': 1,
+      },
+    ),
+  ];
+}
+
+class Weight extends UnitCategory {
+  const Weight({
+    String? label,
+    UnitTheme? theme,
+    Unit? defaultFrom,
+    num? defaultFromValue,
+    Unit? defaultTo,
+    num? defaultToValue,
+  }) : super(
+          label: label,
+          theme: theme,
+          defaultFrom: defaultFrom,
+          units: _units,
+          defaultFromValue: defaultFromValue,
+          defaultTo: defaultTo,
+          defaultToValue: defaultToValue,
+        );
+
+  static const List<Unit> _units = [
+    Unit(
+      name: 'Gram',
+      conversionFactors: {
+        'Gram': 1,
+        'Kilogram': 0.001,
+        'Metric Ton': 0.000001,
+        'Milligram': 1000,
+        'Ounce': 0.03527396,
+        'Pound': 0.002204623,
+      },
+    ),
+    Unit(
+      name: 'Kilogram',
+      conversionFactors: {
+        'Gram': 1000,
+        'Kilogram': 1,
+        'Metric Ton': 0.001,
+        'Milligram': 1000000,
+        'Ounce': 35.27396,
+        'Pound': 2.204623,
+      },
+    ),
+    Unit(
+      name: 'Metric Ton',
+      conversionFactors: {
+        'Gram': 1000000,
+        'Kilogram': 1000,
+        'Metric Ton': 1,
+        'Milligram': 1000000000,
+        'Ounce': 35273.96,
+        'Pound': 2204.623,
+      },
+    ),
+    Unit(
+      name: 'Milligram',
+      conversionFactors: {
+        'Gram': 0.001,
+        'Kilogram': 0.000001,
+        'Metric Ton': 0.000000001,
+        'Milligram': 1,
+        'Ounce': 0.00003527396,
+        'Pound': 0.000002204623,
+      },
+    ),
+    Unit(
+      name: 'Ounce',
+      conversionFactors: {
+        'Gram': 28.34952,
+        'Kilogram': 0.02834952,
+        'Metric Ton': 0.00002834952,
+        'Milligram': 28349.52,
+        'Ounce': 1,
+        'Pound': 0.0625,
+      },
+    ),
+    Unit(
+      name: 'Pound',
+      conversionFactors: {
+        'Gram': 453.5924,
+        'Kilogram': 0.4535924,
+        'Metric Ton': 0.0004535924,
+        'Milligram': 453592.4,
+        'Ounce': 16,
+        'Pound': 1,
       },
     ),
   ];
