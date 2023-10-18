@@ -5,9 +5,8 @@ import 'package:alphonso/common/app_color.dart';
 import 'package:alphonso/src/converter/domain/unit.dart';
 import 'package:alphonso/src/converter/domain/unit_category.dart';
 import 'package:alphonso/src/converter/domain/unit_theme.dart';
-import 'package:alphonso/src/converter/presentation/converter_screen.dart';
-import 'package:alphonso/src/converter/presentation/widgets/unit_category_tile.dart';
 import 'package:alphonso/src/converter/data/repository/local_storage_repository.dart';
+import 'package:alphonso/src/converter/presentation/converter_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,12 +17,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final LocalStorageRepository lsRepository;
+  late final PageController _controller;
 
   @override
   void initState() {
     super.initState();
 
     lsRepository = LocalStorageRepository();
+    _controller = PageController(
+        initialPage: unitCategories.length ~/ 2, viewportFraction: 0.3);
   }
 
   @override
@@ -31,6 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
 
     await lsRepository.openDBConnection();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -42,58 +51,127 @@ class _HomeScreenState extends State<HomeScreen> {
           return Material(
             color: AppColor.spaceCadet,
             child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Stack(
                 children: [
-                  /// Title
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 36.0, horizontal: 12.0),
-                    child: Text(
-                      'Alphonso',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 36.0,
-                        color: Colors.white,
+                  /// Background
+                  Column(
+                    children: [
+                      /// Header
+                      const Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'HOME',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18.0,
+                              color: Colors.white,
+                              letterSpacing: 4.0,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+
+                      const Spacer(),
+
+                      /// Footer
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'ALPHONSO',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.0,
+                                color: Colors.white,
+                                letterSpacing: 4.0,
+                              ),
+                            ),
+                            Text(
+                              'v0.1.2',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12.0,
+                                color: Colors.white.withOpacity(0.6),
+                                letterSpacing: 2.0,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
 
-                  const SizedBox(height: 16),
-
-                  /// Unit Grid
-                  Expanded(
-                    child: GridView.count(
-                      physics: const BouncingScrollPhysics(),
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.8,
-                      crossAxisSpacing: 8.0,
-                      mainAxisSpacing: 8.0,
-                      padding: const EdgeInsets.all(16.0),
-                      children: List.generate(
-                        unitCategories.length,
-                        (index) {
-                          return UnitCategoryTile(
-                            category: unitCategories[index],
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      Provider<LocalStorageRepository>.value(
-                                    value: Provider.of<LocalStorageRepository>(
-                                        context),
-                                    child: ConverterScreen(
-                                      category: unitCategories[index],
-                                    ),
-                                  ),
+                  /// Foreground
+                  PageView.builder(
+                    controller: _controller,
+                    physics: const BouncingScrollPhysics(),
+                    reverse: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: unitCategories.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  Provider<LocalStorageRepository>.value(
+                                value: Provider.of<LocalStorageRepository>(
+                                    context),
+                                child: ConverterScreen(
+                                  category: unitCategories[index],
                                 ),
-                              );
-                            },
+                              ),
+                            ),
                           );
                         },
-                      ),
-                    ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: unitCategories[index].theme!.lightShade,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black38,
+                                offset: Offset(0, 4),
+                                spreadRadius: 5.0,
+                                blurRadius: 6.0,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              /// Icon
+                              Icon(
+                                unitCategories[index].theme!.icon,
+                                size: 48.0,
+                                color: Colors.white,
+                              ),
+
+                              const SizedBox(height: 8.0),
+
+                              /// Label
+                              FittedBox(
+                                fit: BoxFit.contain,
+                                child: Text(
+                                  unitCategories[index].label!.toUpperCase(),
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18.0,
+                                    color: Colors.white,
+                                    letterSpacing: 4.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
