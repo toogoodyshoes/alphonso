@@ -30,12 +30,6 @@ class LocalStorageRepository extends StorageRepository {
         await _isar.collection<UnitState>().put(state);
       },
     );
-
-    final readState = await _isar
-        .collection<UnitState>()
-        .filter()
-        .unitCategoryEqualTo('Length')
-        .findFirst();
   }
 
   Future<void> openDBConnection() async {
