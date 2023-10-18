@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Text(
-                              'v0.1.2',
+                              'v0.2.0',
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontWeight: FontWeight.w400,
