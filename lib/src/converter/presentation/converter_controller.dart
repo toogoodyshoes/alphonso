@@ -1,16 +1,26 @@
-import 'package:alphonso/src/converter/domain/unit_category.dart';
 import 'package:flutter/foundation.dart';
 
-class ConverterController with ChangeNotifier {
-  ConverterController({required this.category}) {
-    _topUnit = category.defaultFrom!.name;
-    _topValue = category.defaultFromValue!.toDouble();
+import 'package:alphonso/src/converter/data/repository/local_storage_repository.dart';
+import 'package:alphonso/src/converter/domain/unit_category.dart';
+import 'package:alphonso/src/converter/domain/unit_state.dart';
 
-    _bottomUnit = category.defaultTo!.name;
-    _bottomValue = category.defaultToValue!.toDouble();
+class ConverterController with ChangeNotifier {
+  ConverterController({
+    required this.category,
+    required this.lsRepository,
+  }) {
+    _initializeValues();
+  }
+
+  @override
+  void dispose() async {
+    await updateLocalStorage();
+
+    super.dispose();
   }
 
   final UnitCategory category;
+  final StorageRepository lsRepository;
   double _topValue = 1;
   double get topValue => _topValue;
 
@@ -22,6 +32,37 @@ class ConverterController with ChangeNotifier {
 
   String _bottomUnit = '';
   String get bottomUnit => _bottomUnit;
+
+  UnitState? _unitState;
+
+  Future<void> _initializeValues() async {
+    final state = await lsRepository.readFromStorage(category.label!);
+
+    if (state != null) {
+      _topUnit = state.topUnit!;
+      _topValue = state.topValue!;
+
+      _bottomUnit = state.bottomUnit!;
+      _bottomValue = state.bottomValue!;
+
+      _unitState = state;
+    } else {
+      _topUnit = category.defaultFrom!.name;
+      _topValue = category.defaultFromValue!.toDouble();
+
+      _bottomUnit = category.defaultTo!.name;
+      _bottomValue = category.defaultToValue!.toDouble();
+
+      _unitState = UnitState()
+        ..unitCategory = category.label
+        ..topUnit = _topUnit
+        ..topValue = _topValue
+        ..bottomUnit = _bottomUnit
+        ..bottomValue = _bottomValue;
+    }
+
+    notifyListeners();
+  }
 
   void changeTopValue(double newValue) {
     _topValue = newValue;
@@ -44,7 +85,8 @@ class ConverterController with ChangeNotifier {
   }
 
   void computeTopValue() {
-    final unit = category.units!.singleWhere((unit) => unit.name == _bottomUnit);
+    final unit =
+        category.units!.singleWhere((unit) => unit.name == _bottomUnit);
 
     final conversionFactor = unit.conversionFactors[_topUnit];
     final newBottomValue = _bottomValue * conversionFactor!;
@@ -59,5 +101,18 @@ class ConverterController with ChangeNotifier {
     final newBottomValue = _topValue * conversionFactor!;
 
     changeBottomValue(newBottomValue);
+  }
+
+  Future<void> updateLocalStorage() async {
+    if (_unitState != null) {
+      final unitState = _unitState!
+        ..unitCategory = category.label
+        ..topUnit = _topUnit
+        ..topValue = _topValue
+        ..bottomUnit = _bottomUnit
+        ..bottomValue = _bottomValue;
+
+      await lsRepository.writeToStorage(unitState);
+    }
   }
 }
