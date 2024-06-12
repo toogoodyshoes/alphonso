@@ -9,7 +9,7 @@ pipeline {
 
     stage('Checkout from SCM') {
             steps {
-                git branch: 'main', credentialsId: 'toogoodyshoes', url: 'https://github.com/toogoodyshoes/alphonso'
+                git branch: 'develop', credentialsId: 'toogoodyshoes', url: 'https://github.com/toogoodyshoes/alphonso'
             }
         }
 
