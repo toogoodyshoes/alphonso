@@ -16,7 +16,7 @@ pipeline {
         stage('Setup Flutter Workspace') {
             steps {
                 sh "curl -o ~/flutter_linux_3.22.2-stable.tar.xz -L https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.22.2-stable.tar.xz"
-                sh "tar -xf ~/flutter_linux_3.22.2-stable.tar.xz -C ~/flutter_sdk"
+                sh "mkdir ~/flutter_sdk && tar -xf ~/flutter_linux_3.22.2-stable.tar.xz -C ~/flutter_sdk"
                 sh "echo 'export PATH=\"~/flutter_sdk/flutter/bin:$PATH\"' >> ~/.bash_profile"
             }
         }
