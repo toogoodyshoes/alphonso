@@ -1,13 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Cleanup Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+        // stage('Cleanup Workspace') {
+        //     steps {
+        //         cleanWs()
+        //     }
+        // }
 
-        stage('Checkout from SCM') {
+    stage('Checkout from SCM') {
             steps {
                 git branch: 'main', credentialsId: 'toogoodyshoes', url: 'https://github.com/toogoodyshoes/alphonso'
             }
